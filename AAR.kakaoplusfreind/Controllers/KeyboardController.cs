@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace OhIlSeokBot.KakaoPlusFriend.Controllers
+namespace AAR.kakaoplusfreind.Controllers
 {
     public class KeyboardController : Controller
     {
@@ -21,8 +21,8 @@ namespace OhIlSeokBot.KakaoPlusFriend.Controllers
             var buttons = new Keyboard
             {
                 type = "buttons",
-                //buttons = new string[] {"인사","소개"}
-                buttons = new string[] { "greeting", "conversation" }
+                buttons = new string[] { "인사", "소개" }
+                //buttons = new string[] { "greeting", "conversation" }
             };
             return Json(buttons, JsonRequestBehavior.AllowGet);
         }
