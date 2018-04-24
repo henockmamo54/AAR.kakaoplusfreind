@@ -70,29 +70,29 @@ namespace OhIlSeokBot.KakaoPlusFriend.Services
 
         public static void Initialize()
         {
-            //client = new DocumentClient(new Uri(ConfigurationManager.AppSettings["endpoint"]), ConfigurationManager.AppSettings["authKey"]);
-            //CreateDatabaseIfNotExistsAsync().Wait();
-            //CreateCollectionIfNotExistsAsync().Wait();
+            client = new DocumentClient(new Uri(ConfigurationManager.AppSettings["endpoint"]), ConfigurationManager.AppSettings["authKey"]);
+            CreateDatabaseIfNotExistsAsync().Wait();
+            CreateCollectionIfNotExistsAsync().Wait();
         }
 
-        //private static async Task CreateDatabaseIfNotExistsAsync()
-        //{
-        //    try
-        //    {
-        //        await client.ReadDatabaseAsync(UriFactory.CreateDatabaseUri(DatabaseId));
-        //    }
-        //    catch (DocumentClientException e)
-        //    {
-        //        if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
-        //        {
-        //            await client.CreateDatabaseAsync(new Database { Id = DatabaseId });
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-        //}
+        private static async Task CreateDatabaseIfNotExistsAsync()
+        {
+            try
+            {
+                await client.ReadDatabaseAsync(UriFactory.CreateDatabaseUri(DatabaseId));
+            }
+            catch (DocumentClientException e)
+            {
+                if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    await client.CreateDatabaseAsync(new Database { Id = DatabaseId });
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
 
         private static async Task CreateCollectionIfNotExistsAsync()
         {

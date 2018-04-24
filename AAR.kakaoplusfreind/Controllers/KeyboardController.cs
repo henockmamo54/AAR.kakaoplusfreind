@@ -24,6 +24,7 @@ namespace AAR.kakaoplusfreind.Controllers
                 buttons = new string[] { "인사", "소개" }
                 //buttons = new string[] { "greeting", "conversation" }
             };
+            System.Diagnostics.Debug.WriteLine("Keyboard instantiated");
             return Json(buttons, JsonRequestBehavior.AllowGet);
         }
     }
