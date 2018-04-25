@@ -47,18 +47,14 @@ namespace AAR.kakaoplusfreind.Controllers
 
             var results = await myDbService.readDataFromDocument(conversationinfo);
             var item = results.FirstOrDefault();
-
-
-            //if (Session["cid"] as string != null)
+                        
             if (results.Count()!=0)
             {
-                //this.Conversation = Client.Conversations.ReconnectToConversation((string)Session["CONVERSTAION_ID"]);
                 Conversation = Client.Conversations.ReconnectToConversation(item.coversation.ConversationId.ToString());
             }
             else
             {
                 Conversation = Client.Conversations.StartConversation();
-                //Session["cid"] = Conversation.ConversationId;
             }
 
 
@@ -95,11 +91,7 @@ namespace AAR.kakaoplusfreind.Controllers
 
                 if (results.Count() == 0)
                     await myDbService.SetInfoAsync(conversationinfo);
-
-                //var results = await readDataFromDocument(conversationinfo);
-                //var item = results.FirstOrDefault();
-                //string mytest = item.coversation.ConversationId + "";
-
+                
 
                 Message message = new Message();
                 MessageResponse messageResponse = new MessageResponse();
