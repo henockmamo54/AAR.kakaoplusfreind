@@ -12,6 +12,7 @@ using System.Configuration;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Azure.Documents;
+using AAR.kakaoplusfreind.Services;
 
 namespace AAR.kakaoplusfreind.Controllers
 {
@@ -26,8 +27,7 @@ namespace AAR.kakaoplusfreind.Controllers
         DirectLineClient Client = null;
 
         private ConversationInfo conversationinfo;
-        private static readonly string DatabaseId = ConfigurationManager.AppSettings["database"];
-        private static readonly string CollectionId = ConfigurationManager.AppSettings["collection"];
+        private My_DBService myDbService;
         string mytest = "heni";
 
         // GET: Message 
@@ -35,6 +35,7 @@ namespace AAR.kakaoplusfreind.Controllers
         {
 
             Client = new DirectLineClient(directLineSecret);
+            myDbService = new My_DBService();
 
             conversationinfo = new ConversationInfo
             {
@@ -44,22 +45,20 @@ namespace AAR.kakaoplusfreind.Controllers
                 watermark = ""
             };
 
-            var results = await readDataFromDocument(conversationinfo);
+            var results = await myDbService.readDataFromDocument(conversationinfo);
             var item = results.FirstOrDefault();
-            string mytest = item.coversation.ConversationId + "";
 
 
             //if (Session["cid"] as string != null)
-            if (item != null)
+            if (results.Count()!=0)
             {
                 //this.Conversation = Client.Conversations.ReconnectToConversation((string)Session["CONVERSTAION_ID"]);
-                Conversation = Client.Conversations.ReconnectToConversation(item.coversation.ConversationId + "");
+                Conversation = Client.Conversations.ReconnectToConversation(item.coversation.ConversationId.ToString());
             }
             else
             {
-                this.Conversation = Client.Conversations.StartConversation();
-
-                Session["cid"] = Conversation.ConversationId;
+                Conversation = Client.Conversations.StartConversation();
+                //Session["cid"] = Conversation.ConversationId;
             }
 
 
@@ -94,7 +93,8 @@ namespace AAR.kakaoplusfreind.Controllers
                     watermark = watermark
                 };
 
-                //await SetInfoAsync(conversationinfo);
+                if (results.Count() == 0)
+                    await myDbService.SetInfoAsync(conversationinfo);
 
                 //var results = await readDataFromDocument(conversationinfo);
                 //var item = results.FirstOrDefault();
@@ -107,62 +107,11 @@ namespace AAR.kakaoplusfreind.Controllers
 
                 foreach (Activity activity in activities)
                 {
-                    message.text = activity.Text + "-" + this.Conversation.ConversationId + " # " + user_key + "#" + Session["cid"] + " ##" + mytest;
+                    message.text = activity.Text + "-" + this.Conversation.ConversationId + " # " + user_key + "#" + Session["cid"] + "###"+mytest;
                 }
 
                 return Json(messageResponse, JsonRequestBehavior.AllowGet);             // return View (); 
             }
-        }
-
-        public async Task<IEnumerable<ConversationInfo>> readDataFromDocument(ConversationInfo info)
-        {
-
-            var client = new DocumentClient(new Uri(ConfigurationManager.AppSettings["endpoint"]), ConfigurationManager.AppSettings["authKey"]);
-            //await client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId), info);
-            IDocumentQuery<ConversationInfo> query = client.CreateDocumentQuery<ConversationInfo>(
-                UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId),
-                new FeedOptions { MaxItemCount = -1 })
-                .Where(d => d.id == info.id)
-                .AsDocumentQuery();
-
-            List<ConversationInfo> results = new List<ConversationInfo>();
-            while (query.HasMoreResults)
-            {
-                results.AddRange(await query.ExecuteNextAsync<ConversationInfo>());
-            }
-
-            return results;
-        }
-        public async Task SetInfoAsync(ConversationInfo info)
-        {
-            var client = new DocumentClient(new Uri(ConfigurationManager.AppSettings["endpoint"]), ConfigurationManager.AppSettings["authKey"]);
-            await client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId), info);
-            //IDocumentQuery<ConversationInfo> query = client.CreateDocumentQuery<ConversationInfo>(
-            //    UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId),
-            //    new FeedOptions { MaxItemCount = -1 })
-            //    .Where(d => d.id == info.id)
-            //    .AsDocumentQuery();
-
-            //List<ConversationInfo> results = new List<ConversationInfo>();
-            //while (query.HasMoreResults)
-            //{
-            //    results.AddRange(await query.ExecuteNextAsync<ConversationInfo>());
-            //}
-
-            //var item = results.FirstOrDefault();
-            //string mytest = item.coversation.ConversationId +"";
-
-            //============================
-            //var items = await DocumentDBRepository<ConversationInfo>.GetItemsAsync(d => d.id == info.id);
-            //var item = items.FirstOrDefault();
-            //if (item == null)
-            //{
-            //    await DocumentDBRepository<ConversationInfo>.CreateItemAsync(info);
-            //}
-            //else
-            //{
-            //    await DocumentDBRepository<ConversationInfo>.UpdateItemAsync(info.id, info);
-            //}
         }
 
         //============================================================================================================
@@ -220,4 +169,4 @@ namespace AAR.kakaoplusfreind.Controllers
 
         //=================================================================================
     }
-}
+    }

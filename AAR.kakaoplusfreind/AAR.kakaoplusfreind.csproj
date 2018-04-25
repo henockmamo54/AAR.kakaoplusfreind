@@ -270,6 +270,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\My_DBService.cs" />
     <Compile Include="Services\DirectLineCoversationService.cs" />
     <Compile Include="Services\DocumentDBRepository.cs" />
     <Compile Include="Services\DocumentDBSessionService.cs" />
