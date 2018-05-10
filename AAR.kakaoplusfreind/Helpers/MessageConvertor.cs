@@ -22,7 +22,7 @@ namespace OhIlSeokBot.KakaoPlusFriend.Helpers
                 //if (activity.Type != ActivityTypes.Message) continue;
 
                 if (msg.message == null) msg.message = new Message();
-                // 텍스트 메시지를 누적 시킴
+                //// 텍스트 메시지를 누적 시킴
                 //msg.message.text += "activity count"+activities.Count()+"\n" + activity.Text;
 
                 if (activity.Attachments != null && activity.Attachments.Count > 0)
@@ -55,7 +55,7 @@ namespace OhIlSeokBot.KakaoPlusFriend.Helpers
                                     // hero 카드의 텍스트가 있다면 text 뒤에 붙여줌 
                                     if (!string.IsNullOrEmpty(heroCard.Text.Trim()))
                                     {
-                                        msg.message.text += heroCard.Title+ "\n" + heroCard.Text;
+                                        msg.message.text += heroCard.Title + "\n" + heroCard.Text;
                                     }
                                     // 이미지가 여러개면 모두 표시를 못해줌. 
                                     // 처음한개만 가져옴. width hegith 없는데 어떻게 표시될지? 
@@ -87,8 +87,8 @@ namespace OhIlSeokBot.KakaoPlusFriend.Helpers
 
                                         var heroactionbutton = heroCard.Buttons.Where(x => x.Type == ActionTypes.ImBack).ToList();
 
-                                        msg.message.text += "\n action buttons count" + heroactionbutton.Count() + " \n => conversationId = "+ 
-                                            conversationId + "\n user_key"+ user_key + "\n myval"+ myval;
+                                        msg.message.text += "\n action buttons count" + heroactionbutton.Count() + " \n => conversationId = " +
+                                            conversationId + "\n user_key" + user_key + "\n myval" + myval;
 
 
                                         if (msg.keyboard == null && heroactionbutton.Count > 0)
@@ -111,6 +111,11 @@ namespace OhIlSeokBot.KakaoPlusFriend.Helpers
                                 }
                         }
                     }
+                }
+
+                else {
+
+                    msg.message.text = "activity count" + activities.Count() + "\n" + activity.Text;
                 }
             }
 
