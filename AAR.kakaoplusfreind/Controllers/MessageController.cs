@@ -29,6 +29,7 @@ namespace AAR.kakaoplusfreind.Controllers
         private ConversationInfo conversationinfo;
         private My_DBService myDbService;
         string mytest = "heni";
+        bool myval = false;
 
         // GET: Message 
         public async Task<ActionResult> Index(string user_key, string type, string content)
@@ -47,14 +48,24 @@ namespace AAR.kakaoplusfreind.Controllers
 
             var results = await myDbService.readDataFromDocument(conversationinfo);
             var item = results.FirstOrDefault();
-                        
-            if (results.Count()!=0)
+
+            if (results.Count() != 0)
             {
-                Conversation = Client.Conversations.ReconnectToConversation(item.coversation.ConversationId.ToString());
+                Conversation = Client.Conversations.ReconnectToConversation(item.coversation.ConversationId.ToString()); myval = true;
             }
             else
             {
                 Conversation = Client.Conversations.StartConversation();
+
+                conversationinfo = new ConversationInfo
+                {
+                    coversation = Conversation,
+                    id = user_key,
+                    timestamp = DateTimeOffset.Now,
+                    watermark = ""
+                };
+
+                await myDbService.SetInfoAsync(conversationinfo);
             }
 
 
@@ -75,34 +86,43 @@ namespace AAR.kakaoplusfreind.Controllers
 
             while (true)
             {
+                //var activitySet = await Client.Conversations.GetActivitiesAsync(Conversation.ConversationId, watermark);
+                //watermark = activitySet?.Watermark;
+
+                //var activities = from x in activitySet.Activities where x.From.Id == botId select x;
+
+
+                //conversationinfo = new ConversationInfo
+                //{
+                //    coversation = Conversation,
+                //    id = user_key,
+                //    timestamp = DateTimeOffset.Now,
+                //    watermark = watermark
+                //};
+
+                //if (results.Count() == 0)
+                //    await myDbService.SetInfoAsync(conversationinfo);
+
+
+                //Message message = new Message();
+                //MessageResponse messageResponse = new MessageResponse();
+                //messageResponse.message = message;
+
+                //foreach (Activity activity in activities)
+                //{
+                //    message.text = ((Activity)activities.Last()).Text +  activities.Count()+activity.Text + "-" + this.Conversation.ConversationId + " # " + user_key + "#" + Session["cid"] + "###"+mytest;
+                //}
+
+                //return Json(messageResponse, JsonRequestBehavior.AllowGet);             // return View (); 
+
+                //=============================================================================================================
                 var activitySet = await Client.Conversations.GetActivitiesAsync(Conversation.ConversationId, watermark);
                 watermark = activitySet?.Watermark;
+                var response = from x in activitySet.Activities where x.From.Id == botId select x;
 
-                var activities = from x in activitySet.Activities where x.From.Id == botId select x;
-
-
-                conversationinfo = new ConversationInfo
-                {
-                    coversation = Conversation,
-                    id = user_key,
-                    timestamp = DateTimeOffset.Now,
-                    watermark = watermark
-                };
-
-                if (results.Count() == 0)
-                    await myDbService.SetInfoAsync(conversationinfo);
-                
-
-                Message message = new Message();
-                MessageResponse messageResponse = new MessageResponse();
-                messageResponse.message = message;
-
-                foreach (Activity activity in activities)
-                {
-                    message.text = activity.Text + "-" + this.Conversation.ConversationId + " # " + user_key + "#" + Session["cid"] + "###"+mytest;
-                }
-
-                return Json(messageResponse, JsonRequestBehavior.AllowGet);             // return View (); 
+                // 발견된 복수의 Activity를 넘겨서 처리
+                var msg = MessageConvertor.DirectLineToKakao(response.ToList(), this.Conversation.ConversationId, user_key, myval);
+                return Json(msg);
             }
         }
 
@@ -161,4 +181,4 @@ namespace AAR.kakaoplusfreind.Controllers
 
         //=================================================================================
     }
-    }
+}
