@@ -10,7 +10,7 @@ namespace OhIlSeokBot.KakaoPlusFriend.Helpers
 {
     public static class MessageConvertor
     {
-        public static Models.MessageResponse DirectLineToKakao(IList<Activity> activities, string conversationId, string user_key,bool myval)
+        public static Models.MessageResponse DirectLineToKakao(IList<Activity> activities)
         {
             if (activities == null || activities.Count <= 0) return null;
 
@@ -86,10 +86,7 @@ namespace OhIlSeokBot.KakaoPlusFriend.Helpers
                                         }
 
                                         var heroactionbutton = heroCard.Buttons.Where(x => x.Type == ActionTypes.ImBack).ToList();
-
-                                        msg.message.text += "\n action buttons count" + heroactionbutton.Count() + " \n => conversationId = " +
-                                            conversationId + "\n user_key" + user_key + "\n myval" + myval;
-
+                                        
 
                                         if (msg.keyboard == null && heroactionbutton.Count > 0)
                                         {

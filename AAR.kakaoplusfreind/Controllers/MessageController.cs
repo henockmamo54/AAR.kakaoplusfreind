@@ -121,7 +121,7 @@ namespace AAR.kakaoplusfreind.Controllers
                 var response = from x in activitySet.Activities where x.From.Id == botId select x;
 
                 // 발견된 복수의 Activity를 넘겨서 처리
-                var msg = MessageConvertor.DirectLineToKakao(response.ToList(), this.Conversation.ConversationId, user_key, myval);
+                var msg = MessageConvertor.DirectLineToKakao(response.ToList());
                 return Json(msg);
             }
         }
