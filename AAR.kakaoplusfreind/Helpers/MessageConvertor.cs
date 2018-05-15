@@ -86,7 +86,7 @@ namespace AAR.kakaoplusfreind.Helpers
                                     }
 
                                     var heroactionbutton = heroCard.Buttons.Where(x => x.Type == ActionTypes.ImBack).ToList();
-                                    if (msg.keyboard == null)
+                                    if (heroactionbutton.Count!=0 && msg.keyboard == null)
                                     {
                                         msg.keyboard = new Keyboard
                                         {
