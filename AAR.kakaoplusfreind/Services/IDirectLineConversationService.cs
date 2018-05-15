@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OhIlSeokBot.KakaoPlusFriend.Services
+namespace AAR.kakaoplusfreind.Services
 {
     public interface IDirectLineConversationService
     {

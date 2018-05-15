@@ -1,4 +1,4 @@
-﻿using OhIlSeokBot.KakaoPlusFriend.Services;
+﻿using AAR.kakaoplusfreind.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace OhIlSeokBot.KakaoPlusFriend.Controllers
+namespace AAR.kakaoplusfreind.Controllers
 {
 
     public class ChatroomController : Controller

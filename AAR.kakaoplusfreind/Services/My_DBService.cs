@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
-using OhIlSeokBot.KakaoPlusFriend.Models;
+using AAR.kakaoplusfreind.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

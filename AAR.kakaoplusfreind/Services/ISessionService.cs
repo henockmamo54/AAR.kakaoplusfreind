@@ -1,11 +1,11 @@
-﻿using OhIlSeokBot.KakaoPlusFriend.Models;
+﻿using AAR.kakaoplusfreind.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OhIlSeokBot.KakaoPlusFriend.Services
+namespace AAR.kakaoplusfreind.Services
 {
     public interface ISessionService
     {

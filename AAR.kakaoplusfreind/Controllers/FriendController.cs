@@ -5,7 +5,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
-namespace OhIlSeokBot.KakaoPlusFriend.Controllers
+namespace AAR.kakaoplusfreind.Controllers
 {
     public class FriendController : Controller
     {

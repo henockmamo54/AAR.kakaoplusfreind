@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using OhIlSeokBot.KakaoPlusFriend.Models;
+using AAR.kakaoplusfreind.Models;
 
-namespace OhIlSeokBot.KakaoPlusFriend.Services
+namespace AAR.kakaoplusfreind.Services
 {
     public class DocumentDBSessionService : ISessionService
     {

@@ -1,4 +1,4 @@
-﻿using OhIlSeokBot.KakaoPlusFriend.Models;
+﻿using AAR.kakaoplusfreind.Models;
 using Microsoft.Bot.Connector.DirectLine;
 using Newtonsoft.Json;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace OhIlSeokBot.KakaoPlusFriend.Helpers
+namespace AAR.kakaoplusfreind.Helpers
 {
     public static class MessageConvertor
     {
@@ -16,14 +16,13 @@ namespace OhIlSeokBot.KakaoPlusFriend.Helpers
 
             var msg = new Models.MessageResponse();
             // 여러개의 Activity
-            //foreach (var activity in activities)
-            var activity = activities.Last();
+            foreach (var activity in activities)
             {
-                //if (activity.Type != ActivityTypes.Message) continue;
+                if (activity.Type != ActivityTypes.Message) continue;
 
                 if (msg.message == null) msg.message = new Message();
-                //// 텍스트 메시지를 누적 시킴
-                //msg.message.text += "activity count"+activities.Count()+"\n" + activity.Text;
+                // 텍스트 메시지를 누적 시킴
+                msg.message.text += "\n" + activity.Text;
 
                 if (activity.Attachments != null && activity.Attachments.Count > 0)
                 {
@@ -50,75 +49,65 @@ namespace OhIlSeokBot.KakaoPlusFriend.Helpers
                                 break;
 
                             case "application/vnd.microsoft.card.hero":
+                                var heroCard = JsonConvert.DeserializeObject<HeroCard>(attachment.Content.ToString());
+                                // hero 카드의 텍스트가 있다면 text 뒤에 붙여줌 
+                                if (!string.IsNullOrEmpty(heroCard.Text.Trim()))
                                 {
-                                    var heroCard = JsonConvert.DeserializeObject<HeroCard>(attachment.Content.ToString());
-                                    // hero 카드의 텍스트가 있다면 text 뒤에 붙여줌 
-                                    if (!string.IsNullOrEmpty(heroCard.Text.Trim()))
+                                    msg.message.text += "\n\n" + heroCard.Text;
+                                }
+                                // 이미지가 여러개면 모두 표시를 못해줌. 
+                                // 처음한개만 가져옴. width hegith 없는데 어떻게 표시될지? 
+                                if (heroCard.Images != null)
+                                {
+                                    var img = heroCard.Images.FirstOrDefault();
+                                    if (msg.message == null) msg.message = new Message();
+                                    msg.message.photo = new Photo
                                     {
-                                        msg.message.text += heroCard.Title + "\n" + heroCard.Text;
-                                    }
-                                    // 이미지가 여러개면 모두 표시를 못해줌. 
-                                    // 처음한개만 가져옴. width hegith 없는데 어떻게 표시될지? 
-                                    if (heroCard.Images != null)
+                                        url = img.Url,
+                                        width = 1000,
+                                        height = 1000
+                                    };
+                                }
+                                // 액션 버튼도 한개만 표시 가능함. OpenUrl 처음 한개만. 
+                                if (heroCard.Buttons != null)
+                                {
+                                    var herobutton = heroCard.Buttons.Where(x => x.Type == ActionTypes.OpenUrl).FirstOrDefault();
+                                    if (herobutton != null)
                                     {
-                                        var img = heroCard.Images.FirstOrDefault();
                                         if (msg.message == null) msg.message = new Message();
-                                        msg.message.photo = new Photo
+
+                                        msg.message.message_button = new MessageButton
                                         {
-                                            url = img.Url,
-                                            width = 1000,
-                                            height = 1000
+                                            label = herobutton.Title,
+                                            url = herobutton.Value.ToString()
                                         };
                                     }
-                                    // 액션 버튼도 한개만 표시 가능함. OpenUrl 처음 한개만. 
-                                    if (heroCard.Buttons != null)
+
+                                    var heroactionbutton = heroCard.Buttons.Where(x => x.Type == ActionTypes.ImBack).ToList();
+                                    if (msg.keyboard == null)
                                     {
-                                        var herobutton = heroCard.Buttons.Where(x => x.Type == ActionTypes.OpenUrl).FirstOrDefault();
-                                        if (herobutton != null)
+                                        msg.keyboard = new Keyboard
                                         {
-                                            if (msg.message == null) msg.message = new Message();
-
-                                            msg.message.message_button = new MessageButton
-                                            {
-                                                label = herobutton.Title,
-                                                url = herobutton.Value.ToString()
-                                            };
-                                        }
-
-                                        var heroactionbutton = heroCard.Buttons.Where(x => x.Type == ActionTypes.ImBack).ToList();
-                                        
-
-                                        if (msg.keyboard == null && heroactionbutton.Count > 0)
+                                            buttons = new string[] { },
+                                            type = "buttons"
+                                        };
+                                        List<string> buttons = new List<string>();
+                                        foreach (var actionbutton in heroactionbutton)
                                         {
-                                            msg.keyboard = new Keyboard
-                                            {
-                                                buttons = new string[] { },
-                                                type = "buttons"
-                                            };
-                                            List<string> buttons = new List<string>();
-                                            foreach (var actionbutton in heroactionbutton)
-                                            {
-                                                buttons.Add(actionbutton.Value.ToString());
-                                            }
-                                            msg.keyboard.buttons = buttons.ToArray();
+                                            buttons.Add(actionbutton.Value.ToString());
                                         }
-
+                                        msg.keyboard.buttons = buttons.ToArray();
                                     }
-                                    break;
                                 }
+                                break;
                         }
                     }
-                }
-
-                else {
-
-                    msg.message.text = "activity count" + activities.Count() + "\n" + activity.Text;
                 }
             }
 
             return msg;
         }
-        
+
         public static Models.MessageResponse DirectLineToKakao(Activity activity)
         {
             if (activity == null) return null;
@@ -129,7 +118,7 @@ namespace OhIlSeokBot.KakaoPlusFriend.Helpers
             {
                 if (msg.message == null) msg.message = new Message();
                 // 텍스트 메시지 
-                msg.message.text = activity.Text ;
+                msg.message.text = activity.Text;
 
                 // 이미지 
                 if (activity.Attachments != null && activity.Attachments.Count > 0)

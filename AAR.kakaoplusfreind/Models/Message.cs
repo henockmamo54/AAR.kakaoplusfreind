@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace OhIlSeokBot.KakaoPlusFriend.Models
+namespace AAR.kakaoplusfreind.Models
 {
     public class MessageResponse
     {

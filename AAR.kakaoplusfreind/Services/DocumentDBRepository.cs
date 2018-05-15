@@ -8,7 +8,7 @@ using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 
-namespace OhIlSeokBot.KakaoPlusFriend.Services
+namespace AAR.kakaoplusfreind.Services
 {
     public static class DocumentDBRepository<T> where T : class
     {

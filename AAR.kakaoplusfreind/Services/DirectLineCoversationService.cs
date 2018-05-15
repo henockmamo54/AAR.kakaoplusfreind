@@ -5,10 +5,10 @@ using System.Web;
 using Microsoft.Bot.Connector.DirectLine;
 using System.Threading.Tasks;
 using System.Configuration;
-using OhIlSeokBot.KakaoPlusFriend.Models;
+using AAR.kakaoplusfreind.Models;
 using System.Threading;
 
-namespace OhIlSeokBot.KakaoPlusFriend.Services
+namespace AAR.kakaoplusfreind.Services
 {
     public class DirectLineCoversationService : IDirectLineConversationService
     {

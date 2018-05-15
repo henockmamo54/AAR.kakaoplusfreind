@@ -1,4 +1,4 @@
-﻿using OhIlSeokBot.KakaoPlusFriend.Models;
+﻿using AAR.kakaoplusfreind.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +21,8 @@ namespace AAR.kakaoplusfreind.Controllers
             var buttons = new Keyboard
             {
                 type = "buttons",
-                buttons = new string[] { "인사", "소개" }
-                //buttons = new string[] { "greeting", "conversation" }
+                buttons = new string[] {"인사","소개"}
             };
-            System.Diagnostics.Debug.WriteLine("Keyboard instantiated");
             return Json(buttons, JsonRequestBehavior.AllowGet);
         }
     }
