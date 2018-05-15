@@ -1,5 +1,7 @@
 ﻿using AAR.kakaoplusfreind.Services;
+using System.Web.Http;
 using System.Web.Mvc;
+using System.Web.Optimization;
 using System.Web.Routing;
 
 namespace AAR.kakaoplusfreind
@@ -18,6 +20,9 @@ namespace AAR.kakaoplusfreind
             UnityConfig.RegisterComponents();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             DocumentDBRepository<Models.ConversationInfo>.Initialize();
         }
