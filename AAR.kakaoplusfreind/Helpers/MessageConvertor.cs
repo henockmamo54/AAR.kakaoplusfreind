@@ -22,7 +22,8 @@ namespace AAR.kakaoplusfreind.Helpers
 
                 if (msg.message == null) msg.message = new Message();
                 // 텍스트 메시지를 누적 시킴
-                msg.message.text += "\n" + activity.Text;
+                if (activity.Text.Length != 0 && activity.Text != "\n")
+                    msg.message.text += activity.Text;
 
                 if (activity.Attachments != null && activity.Attachments.Count > 0)
                 {
@@ -53,7 +54,8 @@ namespace AAR.kakaoplusfreind.Helpers
                                 // hero 카드의 텍스트가 있다면 text 뒤에 붙여줌 
                                 if (!string.IsNullOrEmpty(heroCard.Text.Trim()))
                                 {
-                                    msg.message.text += "\n\n" + heroCard.Text;
+                                    msg.message.text += msg.message.text != null ? "\n\n" : "";
+                                    msg.message.text += heroCard.Text;
                                 }
                                 // 이미지가 여러개면 모두 표시를 못해줌. 
                                 // 처음한개만 가져옴. width hegith 없는데 어떻게 표시될지? 
@@ -112,7 +114,7 @@ namespace AAR.kakaoplusfreind.Helpers
         {
             if (activity == null) return null;
 
-            var msg = new Models.MessageResponse(); 
+            var msg = new Models.MessageResponse();
 
             if (activity.Type == ActivityTypes.Message)
             {
@@ -125,7 +127,7 @@ namespace AAR.kakaoplusfreind.Helpers
                 {
                     foreach (Attachment attachment in activity.Attachments)
                     {
-                        switch(attachment.ContentType)
+                        switch (attachment.ContentType)
                         {
                             case "image/png":
                             case "image/jpeg":
@@ -153,10 +155,10 @@ namespace AAR.kakaoplusfreind.Helpers
                                         url = img.Url
                                     };
                                 }
-                                if(heroCard.Buttons != null)
+                                if (heroCard.Buttons != null)
                                 {
                                     List<string> buttons = new List<string>();
-                                    foreach(CardAction action in heroCard.Buttons)
+                                    foreach (CardAction action in heroCard.Buttons)
                                     {
                                         if (action.Type == ActionTypes.OpenUrl)
                                         {
