@@ -43,8 +43,8 @@ namespace AAR.kakaoplusfreind.Helpers
                                     msg.message.photo = new Photo
                                     {
                                         url = attachment.ContentUrl,
-                                        width = 100,
-                                        height = 100
+                                        width = 600,
+                                        height = 600
                                     };
                                 }
                                 break;
@@ -66,8 +66,8 @@ namespace AAR.kakaoplusfreind.Helpers
                                     msg.message.photo = new Photo
                                     {
                                         url = img.Url,
-                                        width = 1000,
-                                        height = 1000
+                                        width = 600,
+                                        height = 600
                                     };
                                 }
                                 // 액션 버튼도 한개만 표시 가능함. OpenUrl 처음 한개만. 

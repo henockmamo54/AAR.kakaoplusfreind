@@ -21,7 +21,7 @@ namespace AAR.kakaoplusfreind.Controllers
             var buttons = new Keyboard
             {
                 type = "buttons",
-                buttons = new string[] {"인사","소개"}
+                buttons = new string[] {"한국어","English"}
             };
             return Json(buttons, JsonRequestBehavior.AllowGet);
         }
