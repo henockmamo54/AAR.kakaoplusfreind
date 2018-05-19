@@ -23,7 +23,12 @@ namespace AAR.kakaoplusfreind.Helpers
                 if (msg.message == null) msg.message = new Message();
                 // 텍스트 메시지를 누적 시킴
                 if (activity.Text.Length != 0 && activity.Text != "\n")
-                    msg.message.text += activity.Text;
+                {
+                    if (!(activity.Text.Contains("too many attempts") || activity.Text.Contains("Sorry, my bot")))      //eliminate start bot make errormessage
+                    {
+                        msg.message.text = activity.Text;
+                    }
+                }
 
                 if (activity.Attachments != null && activity.Attachments.Count > 0)
                 {
@@ -120,8 +125,12 @@ namespace AAR.kakaoplusfreind.Helpers
             {
                 if (msg.message == null) msg.message = new Message();
                 // 텍스트 메시지 
-                msg.message.text = activity.Text;
 
+                if (!(activity.Text.Contains("too many attempts") || activity.Text.Contains("Sorry, my bot")))  //eliminate start bot make errormessage
+                {
+                    msg.message.text = activity.Text;
+                }
+                
                 // 이미지 
                 if (activity.Attachments != null && activity.Attachments.Count > 0)
                 {
