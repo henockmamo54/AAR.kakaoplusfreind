@@ -33,6 +33,8 @@ namespace AAR.kakaoplusfreind.Controllers
         {
             try
             {
+                await conversationService.ConnectAsync(user_key);
+
                 // covert from Kakao talk message to Bot Builder Activity
                 Activity activity = new Activity
                 {

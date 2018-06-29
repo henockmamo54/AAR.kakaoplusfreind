@@ -123,7 +123,7 @@ namespace AAR.kakaoplusfreind.Services
 
         public async Task SendMessageAsync(string userkey, Activity activity)
         {
-            await ConnectAsync(userkey);
+            //await ConnectAsync(userkey);
             await client.Conversations.PostActivityAsync(conversation.ConversationId, activity);
         }
     }
