@@ -7,20 +7,20 @@ using AAR.kakaoplusfreind.Models;
 
 namespace AAR.kakaoplusfreind.Services
 {
-    public class DocumentDBSessionService : ISessionService
+    public class DocumentDBSessionService //: ISessionService
     {
-        public async Task DeleteInfoAsync(string userkey)
+        public static async Task DeleteInfoAsync(string userkey)
         {
             await DocumentDBRepository<ConversationInfo>.DeleteItemAsync(userkey);
         }
 
-        public async Task<ConversationInfo> GetInfoAsync(string userkey)
+        public static async Task<ConversationInfo> GetInfoAsync(string userkey)
         {
             var items = await DocumentDBRepository<ConversationInfo>.GetItemsAsync(d => d.id == userkey);
             return items.FirstOrDefault();
         }
 
-        public async Task SetInfoAsync(ConversationInfo info)
+        public static async Task SetInfoAsync(ConversationInfo info)
         {
             var items = await DocumentDBRepository<ConversationInfo>.GetItemsAsync(d => d.id == info.id);
             var item = items.FirstOrDefault();

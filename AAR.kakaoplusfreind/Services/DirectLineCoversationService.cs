@@ -12,16 +12,17 @@ namespace AAR.kakaoplusfreind.Services
 {
     public class DirectLineCoversationService : IDirectLineConversationService
     {
-        private ISessionService sessionService;
+        //private ISessionService sessionService;
         private static string directLineSecret = ConfigurationManager.AppSettings["DirectLineSecret"];
         private static string botId = ConfigurationManager.AppSettings["BotId"];
         private DirectLineClient client;
         private ConversationInfo conversationinfo;
         private Conversation conversation;
 
-        public DirectLineCoversationService(ISessionService sessionsvc)
+        //public DirectLineCoversationService(ISessionService sessionsvc)
+        public DirectLineCoversationService()
         {
-            sessionService = sessionsvc;
+            //sessionService = sessionsvc;
             client = new DirectLineClient(directLineSecret);
             client.SetUserAgent("kakao");
         }
@@ -31,7 +32,7 @@ namespace AAR.kakaoplusfreind.Services
             if (conversation != null) return;
 
             // 세션에서 ConversationInfo 가져옴 
-            conversationinfo = await sessionService.GetInfoAsync(userkey);
+            conversationinfo = await DocumentDBSessionService.GetInfoAsync(userkey);
             if (conversationinfo == null)
             {
                 conversation = await client.Conversations.StartConversationAsync();
@@ -69,12 +70,12 @@ namespace AAR.kakaoplusfreind.Services
                 timestamp = timeout,
                 watermark = watermark
             };
-            await sessionService.SetInfoAsync(conversationinfo);
+            await DocumentDBSessionService.SetInfoAsync(conversationinfo);
         }
 
         public async Task DisconnectAsync(string userkey)
         {
-            await sessionService.DeleteInfoAsync(userkey);
+            await DocumentDBSessionService.DeleteInfoAsync(userkey);
             // TODO : DirectLine 의 EndingConversation을 사용해서 대화 종료해줘야 함. DirectLine 라이브러리에서 찾아보든가
 
         }

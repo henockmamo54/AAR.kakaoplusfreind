@@ -311,7 +311,6 @@
     <Compile Include="Services\DocumentDBRepository.cs" />
     <Compile Include="Services\DocumentDBSessionService.cs" />
     <Compile Include="Services\IDirectLineConversationService.cs" />
-    <Compile Include="Services\ISessionService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
