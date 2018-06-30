@@ -19,7 +19,7 @@ namespace AAR.kakaoplusfreind
             // e.g. container.RegisterType<ITestService, TestService>();
 
             //container.RegisterType<ISessionService, DocumentDBSessionService>();
-            container.RegisterType<IDirectLineConversationService, DirectLineCoversationService>();
+            //container.RegisterType<IDirectLineConversationService, DirectLineCoversationService>();
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

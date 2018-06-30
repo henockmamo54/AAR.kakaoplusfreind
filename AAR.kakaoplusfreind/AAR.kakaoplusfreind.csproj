@@ -310,7 +310,6 @@
     <Compile Include="Services\DirectLineCoversationService.cs" />
     <Compile Include="Services\DocumentDBRepository.cs" />
     <Compile Include="Services\DocumentDBSessionService.cs" />
-    <Compile Include="Services\IDirectLineConversationService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

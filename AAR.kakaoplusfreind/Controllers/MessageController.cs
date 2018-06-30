@@ -13,9 +13,9 @@ namespace AAR.kakaoplusfreind.Controllers
 {
     public class MessageController : Controller
     {
-        private IDirectLineConversationService conversationService;
+        private DirectLineCoversationService conversationService;
 
-        public MessageController(IDirectLineConversationService service)
+        public MessageController(DirectLineCoversationService service)
         {
             conversationService = service;
         }

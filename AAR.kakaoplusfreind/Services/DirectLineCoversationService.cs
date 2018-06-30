@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace AAR.kakaoplusfreind.Services
 {
-    public class DirectLineCoversationService : IDirectLineConversationService
+    public class DirectLineCoversationService //: IDirectLineConversationService
     {
         //private ISessionService sessionService;
         private static string directLineSecret = ConfigurationManager.AppSettings["DirectLineSecret"];

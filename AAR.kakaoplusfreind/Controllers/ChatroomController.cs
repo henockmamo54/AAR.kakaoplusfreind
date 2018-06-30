@@ -12,9 +12,10 @@ namespace AAR.kakaoplusfreind.Controllers
 
     public class ChatroomController : Controller
     {
-        private IDirectLineConversationService conversationService; 
+        private DirectLineCoversationService conversationService; 
 
-        public ChatroomController(IDirectLineConversationService service)
+        //public ChatroomController(IDirectLineConversationService service)
+        public ChatroomController(DirectLineCoversationService service)
         {
             conversationService = service;
         }
