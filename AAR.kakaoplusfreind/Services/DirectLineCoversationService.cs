@@ -105,7 +105,7 @@ namespace AAR.kakaoplusfreind.Services
                 // 메시지를 받으면 루프를 벗어남. 
                 if (responseActivity.Count > 0 || requestCount > 5) messageReceived = true;
 
-                Thread.Sleep(100);
+                //Thread.Sleep(100);
             }
 
             return responseActivity;
